@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 public class EmailSendNotificationService  implements NotificationService {
     @Override
     public void send(String message) {
+        System.out.println("hi");
         System.out.println("Email sending"+message);
     }
 }
