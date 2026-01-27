@@ -57,6 +57,7 @@ public class EmployeeController {
     }
     @PutMapping
     public  String updateEmployee(){
+        System.out.println("updated employee");
         return  "hello from put: hhj";
     }
 }
