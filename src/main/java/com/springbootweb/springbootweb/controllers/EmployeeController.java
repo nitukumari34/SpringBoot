@@ -1,63 +1,46 @@
 package com.springbootweb.springbootweb.controllers;
 
 import com.springbootweb.springbootweb.dtos.EmployeeDTO;
-import com.springbootweb.springbootweb.repositories.EmployeeRepository;
+import com.springbootweb.springbootweb.services.EmployeeService;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
+import java.util.List;
 
 @RestController
 @RequestMapping("/employees")
 public class EmployeeController {
-//    @GetMapping(path = "/geSecretMessage")
-//    public  String getSecretMessage(){
-//        return "secret message: @5657bnbm";
-//    }
 
-//    @GetMapping(path="/{employeeId}")
-//    public EmployeeDTO getSecretMessagebyId(@PathVariable(name="employeeId") Long id){
-//        return new EmployeeDTO(
-//                id,
-//                "nitu",
-//                24,
-//                true,
-//                LocalDate.of(2026, 1, 25)
-//        );
-//}
-    public final EmployeeRepository employeeRepository;
+    private final EmployeeService employeeService;
 
-    public EmployeeController(EmployeeRepository employeeRepository) {
-        this.employeeRepository = employeeRepository;
+    public EmployeeController(EmployeeService employeeService) {
+        this.employeeService = employeeService;
     }
 
-//    @GetMapping
-//        public String getAllEmployee(@RequestParam(required = false) Integer age,String sortby){
-//              return "hi age"+age +" "+sortby;
-//          }
-//          @PostMapping
-//    public EmployeeDTO createNewEmployee(@RequestBody EmployeeDTO inputEmployee){
-//            inputEmployee.setId(1);
-//           return inputEmployee;
-//
-//          }
-//          @PutMapping
-//       public  String updateEmployee(){
-//            return  "hello from put: hhj";
-//          }
+    // ✅ GET employee by ID
+    @GetMapping("/{id}")
+    public EmployeeDTO getEmployeeById(@PathVariable long id) {
+        return employeeService.getEmployeeById(id);
+    }
 
+    // ✅ GET all employees
     @GetMapping
-    public String getAllEmployee(@RequestParam(required = false) Integer age,String sortby){
-        return "hi age"+age +" "+sortby;
-    }
-    @PostMapping
-    public EmployeeDTO createNewEmployee(@RequestBody EmployeeDTO inputEmployee){
-        inputEmployee.setId(1);
-        return inputEmployee;
+    public List<EmployeeDTO> getAllEmployees(
+            @RequestParam(required = false) Integer age,
+            @RequestParam(required = false) String sortby) {
 
+        // (age, sortby can be used later)
+        return employeeService.getAllEmployee();
     }
-    @PutMapping
-    public  String updateEmployee(){
-        System.out.println("updated employee");
-        return  "hello from put: hhj";
+
+    // ✅ CREATE new employee
+    @PostMapping
+    public EmployeeDTO createNewEmployee(@RequestBody EmployeeDTO inputEmployee) {
+        return employeeService.createNewEmployee(inputEmployee);
+    }
+
+    // ✅ UPDATE (dummy for now)
+    @PutMapping("/{id}")
+    public String updateEmployee(@PathVariable long id) {
+        return "Employee updated with id: " + id;
     }
 }
