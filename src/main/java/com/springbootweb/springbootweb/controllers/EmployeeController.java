@@ -2,6 +2,7 @@ package com.springbootweb.springbootweb.controllers;
 
 import com.springbootweb.springbootweb.dtos.EmployeeDTO;
 import com.springbootweb.springbootweb.services.EmployeeService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -42,7 +43,7 @@ public class EmployeeController {
     // ✅ CREATE new employee
     @PostMapping
     public ResponseEntity<EmployeeDTO> createNewEmployee(
-            @RequestBody EmployeeDTO inputEmployee) {
+            @RequestBody @Valid EmployeeDTO inputEmployee) {
 
         EmployeeDTO createdEmployee =
                 employeeService.createNewEmployee(inputEmployee);
