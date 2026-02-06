@@ -1,13 +1,17 @@
 package com.springbootweb.springbootweb.controllers;
 
 import com.springbootweb.springbootweb.dtos.EmployeeDTO;
+import com.springbootweb.springbootweb.exceptions.ResourceNotFoundException;
 import com.springbootweb.springbootweb.services.EmployeeService;
 import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
+
 @RestController
 @RequestMapping("/employees")
 public class EmployeeController {
@@ -31,14 +35,26 @@ public class EmployeeController {
         return ResponseEntity.ok(employeeDTO);
     }
 
+
     // ✅ GET all employees
     @GetMapping
-    public ResponseEntity<List<EmployeeDTO>> getAllEmployees(
-            @RequestParam(required = false) Integer age,
-            @RequestParam(required = false) String sortby) {
 
-        return ResponseEntity.ok(employeeService.getAllEmployee());
+    public List<EmployeeDTO> getAllEmployee(Integer age, String sortby) {
+
+        List<EmployeeDTO> employees = employeeService.getAllEmployee(); // example
+
+        if (employees.isEmpty()) {
+            throw new ResourceNotFoundException("No employees found");
+        }
+
+        return employees;
     }
+//    public ResponseEntity<List<EmployeeDTO>> getAllEmployees(
+//            @RequestParam(required = false) Integer age,
+//            @RequestParam(required = false) String sortby) {
+//
+//        return ResponseEntity.ok(employeeService.getAllEmployee());
+//    }
 
     // ✅ CREATE new employee
     @PostMapping
